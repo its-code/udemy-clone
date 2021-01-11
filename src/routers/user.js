@@ -6,7 +6,7 @@ const router = new express.Router()
 const multer = require('multer')
 
 
-// Routers for tasks (HTTP Method : post,get,patch and delete)
+// Routers for users (HTTP Method : post,get,patch and delete)
 
 router.post('/users',async (req,res)=>{  
     const me = new user(req.body)
@@ -53,16 +53,6 @@ router.post('/users/logoutall', auth, async (req,res)=>{
 router.get('/users/me', auth,async (req,res)=>{
 
     res.send(req.user)
-    // try{
-    // const userFind= await user.find({})
-
-    // if(!userFind){
-    //     return res.status(404).send()
-    // }
-    // res.send(userFind)
-    // }catch(e){
-    //     res.status(400).send(e)
-    // }
 })
 
 
@@ -106,7 +96,6 @@ router.patch('/users/me', auth ,async (req,res)=>{
 router.delete('/users/me',auth ,async (req,res)=>{
     try{
         await req.user.remove()
-        //sendFairwellEmail(req.user.email,req.user.name)
         res.send(req.user)
     }catch(e){
         res.status(400).send(e)

@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema({
   timestamps: true
 })
 
-//Creating a Task Model
+//Creating a Course Model
 const Courses = mongoose.model('Courses',courseSchema)
 
 module.exports = Courses
