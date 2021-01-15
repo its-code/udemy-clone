@@ -31,12 +31,6 @@ const userSchema = mongoose.Schema({
           }
       }  
   },
-  role:{
-    type: String,
-    required: true,
-    trim: true,
-   
-  },
   age:{
     type: Number,
     default: 0
