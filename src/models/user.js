@@ -53,6 +53,11 @@ userSchema.virtual('courses',{
   localField: '_id',
   foreignField: 'owner'
 })
+userSchema.virtual('feedbacks',{
+  ref: 'Feedbacks',
+  localField: '_id',
+  foreignField: 'owner'
+})
 
 // private user data
 // toJSON give us data into string so we can maniuplate it

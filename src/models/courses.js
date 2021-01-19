@@ -16,9 +16,18 @@ const courseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Users'
+  },
+  avatar:{
+    type: Buffer
   }
 },{
   timestamps: true
+})
+
+courseSchema.virtual('feedbacks',{
+  ref: 'Feedbacks',
+  localField: '_id',
+  foreignField: 'course'
 })
 
 //Creating a Course Model

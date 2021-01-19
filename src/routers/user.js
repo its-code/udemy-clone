@@ -5,7 +5,6 @@ const sharp = require('sharp')
 const router = new express.Router() 
 const multer = require('multer')
 const {addUserValidation,loginUserValidation,updateUserValidation} = require('../validation/users/user.validation')
-const { updateUserSchema } = require('../validation/users/user.schema')
 
 
 // Routers for users (HTTP Method : post,get,patch and delete)
@@ -15,6 +14,7 @@ router.post('/users',addUserValidation,async (req,res)=>{
     const me = new user(req.body)
     try{
       await me.save()
+      
       const token = await me.generateAuthToken()
       res.status(201).send({me,token})  
     }catch(e){
@@ -78,6 +78,7 @@ router.get('/users/:id',async (req,res)=>{
 router.patch('/users/me', auth, updateUserValidation ,async (req,res)=>{
     
     const updates = Object.keys(req.body) 
+
     const propertiesUsers = ['name','email','password','age']
     const isValid = updates.every( update => propertiesUsers.includes(update))
 

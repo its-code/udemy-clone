@@ -74,7 +74,7 @@ router.get('/course/:id',auth,async (req,res)=>{
 router.patch('/courses/:id',auth,async (req,res)=>{
     
     const updates = Object.keys(req.body) 
-    const propertiesCourse = ['name','discription']
+    const propertiesCourse = ['title','discription']
     const isValid = updates.every( update => propertiesCourse.includes(update))
 
     if(!isValid)
@@ -95,6 +95,29 @@ router.patch('/courses/:id',auth,async (req,res)=>{
         res.status(400).send(e)
     }
 })
+
+// const upload = multer({
+//     limits:{
+//         fileSize: 1000000
+//     },
+//     fileFilter(req,file,cb){
+//         if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+//             return cb(new Error("Please upload the image file only!"))
+//         }
+
+//         cb(undefined,true)
+//     }
+// })
+
+// router.post('/courses/:id/avatar',auth,upload.single('avatar'),async (req,res)=>{
+    
+//     const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
+//     req.user.avatar = buffer
+//     await req.user.save()
+//     res.send()
+// },(error,req,res,next)=>{
+//     res.status(400).send({ error: error.message })
+// })
 
 router.delete('/courses/:id',auth, async (req,res)=>{
     try{
