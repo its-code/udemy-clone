@@ -8,7 +8,7 @@ const auth = require("../middleware/auth")
 router.post('/feedbacks',auth,async (req,res)=>{  
     const feedback = new feedbacks({
         ...req.body,
-        owner: req.user._id
+        owner: req.user._id,
     })
 
     try{

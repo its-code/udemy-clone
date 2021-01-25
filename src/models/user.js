@@ -3,10 +3,13 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const courses = require('./courses')
+const { required } = require('joi')
 
 const userSchema = mongoose.Schema({
   name:{
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   email:{
     type: String,

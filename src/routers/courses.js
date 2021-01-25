@@ -2,10 +2,11 @@ const express =  require("express")
 const router = express.Router()
 const courses = require("../models/courses")
 const auth = require("../middleware/auth")
+const {addCourseValidation} = require("../validation/courses/course.validation")
 
 // Routers for courses (HTTP Method : get,post,patch and delete)
 
-router.post('/courses',auth,async (req,res)=>{  
+router.post('/courses',auth,addCourseValidation,async (req,res)=>{  
     const course = new courses({
         ...req.body,
         owner: req.user._id
@@ -20,15 +21,15 @@ router.post('/courses',auth,async (req,res)=>{
 })
 
 
-// get courses?completed = true etc
+// get courses?title = true etc
 
 router.get('/courses',auth,async (req,res)=>{
 
     const match = {}
     const sort = []
 
-    if(req.query.completed){
-        match.completed = req.query.completed === 'true'
+    if(req.query.title){
+        match.title = req.query.title
     }
     if(req.query.sortBy){
         const parts = req.query.sortBy.split(':')
@@ -51,6 +52,37 @@ router.get('/courses',auth,async (req,res)=>{
             res.status(400).send(e)
         }
 })
+
+router.get('/courses/enroll',auth,async (req,res)=>{
+
+    const match = {}
+    const sort = []
+
+    if(req.query.enroll){
+        match.enroll = req.query.enroll === 'true'
+    }
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split(':')
+        sort[parts[0]] = parts[1] === 'desc'? -1 : 1
+    }
+
+    try{
+        await req.user.populate({
+            path: 'courses',
+            match,
+            option: {
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                sort
+            }
+        }).execPopulate()
+
+        res.send(req.user.courses)
+        }catch(e){
+            res.status(400).send(e)
+        }
+})
+
 
 router.get('/course/:id',auth,async (req,res)=>{
     

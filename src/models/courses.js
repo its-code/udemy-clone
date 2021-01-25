@@ -7,6 +7,11 @@ const courseSchema = new mongoose.Schema({
     required: true,
     trim: true  
   },
+  category:{
+    type: mongoose.Schema.Types.String,
+    required: true,
+    ref: 'Categories'
+  },
   discription:{
     type: String,
     required: true,
@@ -16,6 +21,11 @@ const courseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Users'
+  },
+  enroll: {
+    type: Boolean,
+    trim: true,
+    required: true
   },
   avatar:{
     type: Buffer
@@ -29,6 +39,8 @@ courseSchema.virtual('feedbacks',{
   localField: '_id',
   foreignField: 'course'
 })
+
+
 
 //Creating a Course Model
 const Courses = mongoose.model('Courses',courseSchema)
